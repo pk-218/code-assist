@@ -16,11 +16,25 @@ export async function activate(context: vscode.ExtensionContext) {
 	// // The command has been defined in the package.json file
 	// // Now provide the implementation of the command with registerCommand
 	// // The commandId parameter must match the command field in package.json
-	// let disposable = vscode.commands.registerCommand('codeassist.helloWorld', () => {
-	// 	// The code you place here will be executed every time your command is executed
-	// 	// Display a message box to the user
-	// 	vscode.window.showInformationMessage('Hello World from CodeAssist!');
-	// });
+	let disposable = vscode.commands.registerCommand('codeassist.helloWorld', () => {
+		// The code you place here will be executed every time your command is executed
+		// Display a message box to the user
+		vscode.window.showInformationMessage('Hello World from CodeAssist!');
+		const editor = vscode.window.activeTextEditor;
+		const selection = editor?.selection;
+		
+		if (selection && !selection.isEmpty) {
+			const selectionRange = new vscode.Range(
+				selection.start.line,
+				selection.start.character,
+				selection.end.line,
+				selection.end.character
+			);
+			const highlightedCode = editor.document.getText(selectionRange);
+
+			console.log(highlightedCode);
+		}
+	});
 
 	// context.subscriptions.push(disposable);
 	

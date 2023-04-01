@@ -9,15 +9,23 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:python"
+  ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "codeassist.helloWorld",
-        "title": "Hello World"
-      }
-    ]
+    "commands":[{
+      "title": "Generate Documentation",
+      "command": "codeassist.helloWorld"
+    }],
+    "menus":{
+      "editor/context": [
+        {
+          "when":"resourceLangId===python",
+          "command":"codeassist.helloWorld"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
