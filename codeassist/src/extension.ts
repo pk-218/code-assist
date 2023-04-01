@@ -1,10 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { optimiseCode } from './functions';
+import { setDocString } from './addDocString';
 
-const getFunctionDefs = (doc: vscode.TextDocument)=>{
-
-}
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
@@ -15,7 +14,7 @@ export async function activate(context: vscode.ExtensionContext) {
     let generateDocsDisposable = vscode.commands.registerCommand(
         'codeassist.generateDocs',
         async()=>{ 
-            await setDocString(context)
+            await setDocString(context);
         }
     );
     context.subscriptions.push(generateDocsDisposable);

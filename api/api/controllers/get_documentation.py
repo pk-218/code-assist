@@ -22,7 +22,10 @@ async def extract_docs(body: DocsCodeInput):
             "finish_reason": "stop",
             "index": 0,
             "message": {
-                "content": "As an AI language model, I do not have the complete context of the code, but I can explain the functionality of the code:\n\nThis code defines a method `play_next_song(self)` inside a class which takes no parameters except the instance self. This method performs the following actions:\n\n1. It initializes an empty list named `songs_to_suggest`.\n2. It iterates through each `song` in `self.library` and applies some filtering logic that is not included in the code snippet. This filtered `song` is then appended to the `songs_to_suggest` list.\n3. It prompts the user interface to ask for the next song to play using the filtered list `songs_to_suggest`. The user must choose a song from this list.\n4. It calls a method `request_money()` with an argument `PRICE_PER_SONG`. This method deducts the cost of one song from the user's account.\n5. It calls another method `play_song(chosen_song)` from an object `self.audio_output`. This will play the chosen song.\n\nOverall, this code is a part of a larger program that plays songs according to some specific filtering parameters and deducts money from the user's account.",
+                "content": '''    1. The sendEmail() function is used to send an email using SMTP protocol.
+    2. The sender and receivers parameters must be specified to define the email addresses of the sender and recipient(s).
+    3. The message parameter contains the content of the email, including the subject and body.
+    4. The function attempts to send the email using the specified SMTP server and prints a success or error message depending on the outcome.''',
                 "role": "assistant"
             }
             }
