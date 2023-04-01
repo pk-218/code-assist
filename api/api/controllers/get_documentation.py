@@ -1,17 +1,20 @@
 from dotenv import load_dotenv
 import re
+from settings import settings
 import os
 import openai
 from models.Docs_CodeInput import DocsCodeInput
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = settings.key
 load_dotenv()
 
 
 async def extract_docs(body: DocsCodeInput):
+    print("Helo")
+    print(body.code)
     code = body.code 
     language = body.language
-    code = f"Generate 4 lines Documentation for {language} code:"+code
+    code = f"Generate 4 lines Documentation:"+code
     
     completion = {
         "choices": [
@@ -35,10 +38,25 @@ async def extract_docs(body: DocsCodeInput):
         }
     }
     code_with_docs = ''
-    # completion = await openai.ChatCompletion.acreate(messages=[{"role": "user", "content": code}], model="gpt-3.5-turbo")
+    messages = [{"role": "user", "content": code}]
+    # completion = await openai.ChatCompletion.acreate(messages=messages, model=settings.model,temperature=settings.temperature,
+    #     max_tokens=settings.max_tokens)
+    
     if completion:
         doc_string = completion['choices'][0]['message']['content']
+        # print(f"'''{doc_string}'''")
+        # newlines = [m.start() for m in re.finditer('\n', doc_string)]
+        # newlines.spli
+        # for n in newlines:
+        #     print(n)
+        #     doc_string = doc_string[:n+1]+'\t'+doc_string[n:]
+        lines = doc_string.split('\n')
         
+        mod_doc_string=''
+        for i in range(0,len(lines)):
+            if lines[i]!='':
+                mod_doc_string+='\n    '+lines[i]
+         
         # regxe search
         indx = re.search(r'def.*?(.*?)\s?:',code)
 
@@ -47,5 +65,6 @@ async def extract_docs(body: DocsCodeInput):
             print(indx.span())
             func_declaration = code[indx.span()[0]:indx.span()[1]]
             inside_def_code = code[indx.span()[1]:]
-            code_with_docs= func_declaration+'\n'+"'''"+doc_string+"'''"+'\n'+inside_def_code
+            code_with_docs= func_declaration+"\n    '''"+mod_doc_string+"\n    '''"+'\n'+inside_def_code
+    print(code_with_docs)
     return code_with_docs

@@ -34,8 +34,8 @@ async def create_ut(req: UnitTestRequest):
 
 
 @app.post('/docs')
-async def create_docs(req: DocsCodeInput)
+async def create_docs(req: DocsCodeInput):
     """
     Returns documentation for given POST request with request body containing code and corresponding language
     """
-    return extract_docs(req)
+    return await extract_docs(req)
