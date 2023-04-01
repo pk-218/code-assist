@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
+import axios from 'axios';
 
-const getWebViewContent = () => {
+const getWebViewContent = (data: string) => {
     return `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -9,12 +10,23 @@ const getWebViewContent = () => {
         <title>Optimise Code</title>
     </head>
     <body>
-        <h1>Optimise Code</h1>
+        <h1>Code Optimisation results</h1>
+        <p>The following optimisations are suggested</p>
+        <pre>${data}</pre>
+        <button onClick="acceptChange()">Accept</button>
     </body>
+    <script>
+        function acceptChange() {
+            const vscode = acquireVsCodeApi();
+            vscode.postMessage({
+                command: 'accept'
+            })
+        }
+    </script>
     </html>`;
 };
 
-const optimiseCode = (context: vscode.ExtensionContext) => {
+const optimiseCode = async (context: vscode.ExtensionContext) => {
     const editor = vscode.window.activeTextEditor;
     const selection = editor?.selection;
 
@@ -33,10 +45,32 @@ const optimiseCode = (context: vscode.ExtensionContext) => {
             'optimiseCode',
             'Optimise Code',
             vscode.ViewColumn.Beside,
-            {}
+            { enableScripts: true }
         );
 
-        panel.webview.html = getWebViewContent();
+        const {
+            data: { ans },
+        } = await axios.post('http://localhost:8000/optimize-code', {
+            language: 'python',
+            code: highlightedCode,
+        });
+
+        panel.webview.html = getWebViewContent(ans.choices[0].message.content);
+
+        panel.webview.onDidReceiveMessage((message) => {
+            switch (message.command) {
+                case 'accept':
+                    editor.edit((editBuilder) => {
+                        editBuilder.replace(
+                            selectionRange,
+                            ans.choices[0].message.content
+                        );
+                    });
+                    return;
+                default:
+                    return;
+            }
+        });
     }
 };
 

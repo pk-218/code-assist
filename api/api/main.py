@@ -20,7 +20,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get('/optimize-code')
+@app.post('/optimize-code')
 def optimize_code_route(body: OptimizeCodeInput):
     return {"ans": optimize_code(body)}
 
