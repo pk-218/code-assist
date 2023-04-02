@@ -10,7 +10,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onLanguage:python"
+    "onLanguage:python || javascript"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -27,7 +27,7 @@
     "menus": {
       "editor/context": [
         {
-          "when": "resourceLangId===python",
+          "when": "resourceLangId===python || resourceLangId===javascript",
           "command": "codeassist.generateDocs"
         },
         {

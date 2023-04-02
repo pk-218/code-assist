@@ -1,3 +1,4 @@
 import optimiseCode from './optimiseCode';
+import setDocString from './addDocString'
 
-export { optimiseCode };
+export { optimiseCode, setDocString};

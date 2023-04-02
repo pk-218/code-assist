@@ -40,4 +40,5 @@ const optimiseCode = (context: vscode.ExtensionContext) => {
     }
 };
 
+
 export default optimiseCode;
