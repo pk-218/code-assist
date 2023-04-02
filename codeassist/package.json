@@ -1,10 +1,16 @@
 {
-  "name": "codeassist",
-  "displayName": "CodeAssist",
+  "name": "codeassist-chatvpt",
+  "displayName": "CodeAssist - Supercharge your developer experience",
+  "publisher": "PankajKhushalani",
   "description": "VS Code extension to help you document, test, and optimise your code. Powered by OpenAI.",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.77.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pk-218/code-assist.git",
+    "directory": "codeassist"
   },
   "categories": [
     "Other"
