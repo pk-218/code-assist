@@ -1,0 +1,23 @@
+{
+  "name": "codeassist-webview",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vscode/webview-ui-toolkit": "^1.2.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.0.31",
+    "@types/react-dom": "18.0.11",
+    "@types/vscode-webview": "^1.57.1",
+    "@vitejs/plugin-react": "3.1.0",
+    "typescript": "5.0.3",
+    "vite": "4.2.1"
+  }
+}

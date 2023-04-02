@@ -1,3 +1,4 @@
-import optimiseCode from './optimiseCode';
+import optimiseCode from "./optimiseCode";
+import writeUnitTest from "./writeUnitTest";
 
-export { optimiseCode };
+export { optimiseCode, writeUnitTest };

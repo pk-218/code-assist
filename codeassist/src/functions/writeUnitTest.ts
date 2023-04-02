@@ -1,11 +1,11 @@
 import * as vscode from "vscode";
+import { getSelectionRange } from "../utils";
 import axios from "axios";
-import { getSelectionRange } from "./utils";
 
-const baseURL = "http://localhost:8000";
-
-export const setDocString = async (context: vscode.ExtensionContext) => {
-  vscode.window.showInformationMessage("Hello World from CodeAssist!");
+const writeUnitTest = async (
+  context: vscode.ExtensionContext,
+  test_module: string
+) => {
   const editor = vscode.window.activeTextEditor;
   const selection = editor?.selection;
 
@@ -14,10 +14,12 @@ export const setDocString = async (context: vscode.ExtensionContext) => {
     const highlightedCode = editor.document.getText(selectionRange);
 
     console.log(highlightedCode);
+
     try {
-      const { data } = await axios.post(`${baseURL}/docs`, {
+      const { data } = await axios.post("http://localhost:8000/ut", {
         code: highlightedCode,
-        language: "Python",
+        language: editor.document.languageId,
+        test_module: test_module,
       });
 
       editor.edit((editBuilder) => {
@@ -28,3 +30,5 @@ export const setDocString = async (context: vscode.ExtensionContext) => {
     }
   }
 };
+
+export default writeUnitTest;

@@ -1,8 +1,9 @@
-import * as vscode from 'vscode';
-import axios from 'axios';
+import * as vscode from "vscode";
+import axios from "axios";
+import { getSelectionRange } from "../utils";
 
 const getWebViewContent = (data: string) => {
-    return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -27,51 +28,43 @@ const getWebViewContent = (data: string) => {
 };
 
 const optimiseCode = async (context: vscode.ExtensionContext) => {
-    const editor = vscode.window.activeTextEditor;
-    const selection = editor?.selection;
+  const editor = vscode.window.activeTextEditor;
+  const selection = editor?.selection;
 
-    if (selection && !selection.isEmpty) {
-        const selectionRange = new vscode.Range(
-            selection.start.line,
-            selection.start.character,
-            selection.end.line,
-            selection.end.character
-        );
-        const highlightedCode = editor.document.getText(selectionRange);
+  if (selection && !selection.isEmpty) {
+    const selectionRange = getSelectionRange(selection);
+    const highlightedCode = editor.document.getText(selectionRange);
 
-        console.log(highlightedCode);
+    console.log(highlightedCode);
 
-        const panel = vscode.window.createWebviewPanel(
-            'optimiseCode',
-            'Optimise Code',
-            vscode.ViewColumn.Beside,
-            { enableScripts: true }
-        );
+    const panel = vscode.window.createWebviewPanel(
+      "optimiseCode",
+      "Optimise Code",
+      vscode.ViewColumn.Beside,
+      { enableScripts: true }
+    );
 
-        const {
-            data: { ans },
-        } = await axios.post('http://localhost:8000/optimize-code', {
-            language: 'python',
-            code: highlightedCode,
-        });
+    const {
+      data: { ans },
+    } = await axios.post("http://localhost:8000/optimize-code", {
+      language: "python",
+      code: highlightedCode,
+    });
 
-        panel.webview.html = getWebViewContent(ans.choices[0].message.content);
+    panel.webview.html = getWebViewContent(ans.choices[0].message.content);
 
-        panel.webview.onDidReceiveMessage((message) => {
-            switch (message.command) {
-                case 'accept':
-                    editor.edit((editBuilder) => {
-                        editBuilder.replace(
-                            selectionRange,
-                            ans.choices[0].message.content
-                        );
-                    });
-                    return;
-                default:
-                    return;
-            }
-        });
-    }
+    panel.webview.onDidReceiveMessage((message) => {
+      switch (message.command) {
+        case "accept":
+          editor.edit((editBuilder) => {
+            editBuilder.replace(selectionRange, ans.choices[0].message.content);
+          });
+          return;
+        default:
+          return;
+      }
+    });
+  }
 };
 
 export default optimiseCode;
