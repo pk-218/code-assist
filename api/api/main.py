@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI
 
 from controllers.get_unit_test import get_unit_test
@@ -20,7 +19,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.post('/optimize-code')
+@app.post("/optimize-code")
 def optimize_code_route(body: OptimizeCodeInput):
     return {"ans": optimize_code(body)}
 
@@ -33,7 +32,7 @@ async def create_ut(req: UnitTestRequest):
     return get_unit_test(req)
 
 
-@app.post('/docs')
+@app.post("/docs")
 async def create_docs(req: DocsCodeInput):
     """
     Returns documentation for given POST request with request body containing code and corresponding language

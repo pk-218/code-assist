@@ -1,7 +1,5 @@
-
-
 import * as vscode from "vscode";
-import { optimiseCode, writeUnitTest,setDocString } from "./functions";
+import { optimiseCode, writeUnitTest, setDocString } from "./functions";
 import { CodeAssistPanel } from "./view/CodeAssistPanel";
 export async function activate(context: vscode.ExtensionContext) {
   let optimiseCodeDisposable = vscode.commands.registerCommand(
