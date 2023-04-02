@@ -18,7 +18,7 @@ def optimize_code(body: OptimizeCodeInput):
     completion = openai.ChatCompletion.create(model="gpt-3.5-turbo",
                                               messages=[{
                                                   "role": "user",
-                                                  "content": f'''Give me just the optimized {language} code for the following: \n{code_to_optimize}'''}
+                                                  "content": f'''Give me just the best optimized {language} code snippet for the following code: \n{code_to_optimize}. No extra text'''}
                                               ])
 
     return completion
