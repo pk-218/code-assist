@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import axios from 'axios';
 import { getSelectionRange } from '../utils';
+import { BASE_URI } from '../constants';
 
 const getWebViewContent = (res: string) => {
     return `<!DOCTYPE html>
@@ -96,7 +97,7 @@ const optimiseCode = async (context: vscode.ExtensionContext) => {
 
         const {
             data: { ans },
-        } = await axios.post('http://localhost:8000/optimize-code', {
+        } = await axios.post(`${BASE_URI}/optimize-code`, {
             language: 'python',
             code: highlightedCode,
         });
@@ -123,6 +124,5 @@ const optimiseCode = async (context: vscode.ExtensionContext) => {
         });
     }
 };
-
 
 export default optimiseCode;
